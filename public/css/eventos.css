@@ -1,0 +1,184 @@
+/*=============== SECCIÓN EVENTOS ===============*/
+.eventos {
+    padding-top: 8rem; /* Espacio para la cabecera fija */
+}
+
+.eventos__container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    justify-content: center;
+}
+
+/* Cajitas de eventos */
+.eventos__card {
+    background-color: var(--container-color);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    border: 1px solid hsla(0, 0%, 100%, 0.1);
+    transition: transform 0.3s;
+}
+
+.eventos__card:hover {
+    transform: translateY(-5px);
+}
+
+.eventos__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.eventos__title {
+    font-size: var(--h2-font-size);
+    color: var(--title-color);
+}
+
+.eventos__badge {
+    font-size: var(--smaller-font-size);
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-weight: var(--font-semi-bold);
+}
+
+.ensayo {
+    background-color: hsla(210, 80%, 50%, 0.2);
+    color: #4ea8de;
+}
+
+.actuacion {
+    background-color: hsla(0, 80%, 50%, 0.2);
+    color: #f07167;
+}
+
+.eventos__info {
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    font-size: var(--normal-font-size);
+    display: grid;
+    gap: 0.5rem;
+}
+
+/* Desplegable de asistencia (Select) */
+.eventos__rsvp {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.eventos__label {
+    font-size: var(--small-font-size);
+    color: var(--text-color-light);
+}
+
+.eventos__select {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--body-color);
+    color: var(--title-color);
+    border: 1px solid hsla(0, 0%, 100%, 0.2);
+    border-radius: 8px;
+    font-family: var(--body-font);
+    cursor: pointer;
+    outline: none;
+}
+
+.eventos__select:focus {
+    border-color: var(--text-color);
+}
+
+/* Botón de más info */
+.eventos__btn {
+    width: 100%;
+    background-color: hsla(0, 0%, 100%, 0.1);
+    color: var(--title-color);
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--second-font);
+    font-weight: var(--font-medium);
+    transition: background-color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.eventos__btn:hover {
+    background-color: hsla(0, 0%, 100%, 0.2);
+}
+
+/*=============== VENTANA EMERGENTE (MODAL) ===============*/
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: hsla(0, 0%, 0%, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.modal.active-modal {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal__content {
+    background-color: var(--container-color);
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    border: 1px solid hsla(0, 0%, 100%, 0.1);
+    transform: translateY(-20px);
+    transition: transform 0.3s;
+}
+
+.modal.active-modal .modal__content {
+    transform: translateY(0);
+}
+
+.modal__close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
+    color: var(--title-color);
+    cursor: pointer;
+}
+
+.modal__title {
+    font-size: var(--h1-font-size);
+    margin-bottom: 0.5rem;
+}
+
+.modal__subtitle {
+    color: var(--text-color-light);
+    margin-bottom: 2rem;
+    font-size: var(--normal-font-size);
+}
+
+.modal__details {
+    display: grid;
+    gap: 1rem;
+}
+
+.modal__details li {
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.modal__details strong {
+    color: var(--title-color);
+}

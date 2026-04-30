@@ -1,0 +1,28 @@
+version: '3.3'
+
+services:
+  # Contenedor 1: La Base de Datos
+  db:
+    image: mysql:5.7
+    container_name: banda_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: banda_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql # Esto guarda los datos para que no se borren si apagas el contenedor
+
+  # Contenedor 2: Tu aplicación Backend
+  backend:
+    image: node:18
+    container_name: banda_node
+    working_dir: /app
+    volumes:
+      - .:/app # Sincroniza tu carpeta actual con el interior del contenedor
+    ports:
+      - "3000:3000"
+    command: tail -f /dev/null # Mantiene el contenedor despierto para que podamos trabajar dentro
+
+volumes:
+  db_data:

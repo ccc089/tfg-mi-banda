@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Músicos - Agrupación Musical</title>
+    <!-- Enlazamos tu CSS principal y el específico del login -->
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- CABECERA -->
+    <header class="header blur-header" id="header">
+        <nav class="nav container">
+            <a href="index.html" class="nav__logo">🎺 Banda</a>
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li><a href="index.html" class="nav__link">Inicio</a></li>
+                    <li><a href="eventos.html" class="nav__link">Eventos</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- SECCIÓN DE LOGIN -->
+    <main class="main">
+        <section class="section login">
+            <div class="container login__container">
+                
+                <!-- El formulario enviará los datos a la ruta /api/login por método POST -->
+                <form action="/api/login" method="POST" class="login__form">
+                    <div class="login__icon">
+                        <i class="ri-user-3-line"></i>
+                    </div>
+                    <h2 class="login__title">Acceso a Músicos</h2>
+                    <p class="login__description">Introduce tus credenciales para acceder a tu panel de gestión.</p>
+
+                    <div class="login__inputs">
+                        <div class="login__box">
+                            <label for="email" class="login__label">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" required class="login__input" placeholder="ejemplo@banda.com">
+                        </div>
+                        
+                        <div class="login__box">
+                            <label for="password" class="login__label">Contraseña</label>
+                            <input type="password" id="password" name="password" required class="login__input" placeholder="••••••••">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="login__button">Iniciar Sesión</button>
+                    
+                    <a href="#" class="login__forgot">¿Has olvidado tu contraseña?</a>
+                </form>
+
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>

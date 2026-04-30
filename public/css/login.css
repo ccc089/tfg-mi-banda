@@ -1,0 +1,106 @@
+/*=============== SECCIÓN LOGIN ===============*/
+.login {
+    /* Centramos el formulario ocupando todo el alto de la pantalla */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 5rem; 
+}
+
+.login__container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.login__form {
+    background-color: var(--container-color);
+    padding: 3.5rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    border: 1px solid hsla(0, 0%, 100%, 0.05);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+}
+
+.login__icon {
+    font-size: 3rem;
+    color: var(--title-color);
+    margin-bottom: 1rem;
+    display: inline-block;
+    background-color: hsla(0, 0%, 100%, 0.05);
+    padding: 1rem;
+    border-radius: 50%;
+}
+
+.login__title {
+    font-size: var(--h1-font-size);
+    margin-bottom: 0.5rem;
+}
+
+.login__description {
+    font-size: var(--small-font-size);
+    color: var(--text-color-light);
+    margin-bottom: 2.5rem;
+}
+
+.login__inputs {
+    display: grid;
+    row-gap: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.login__label {
+    display: block;
+    font-size: var(--smaller-font-size);
+    color: var(--text-color-light);
+    margin-bottom: 0.5rem;
+    font-weight: var(--font-medium);
+}
+
+.login__input {
+    width: 100%;
+    background-color: var(--body-color);
+    color: var(--title-color);
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    border: 1px solid hsla(0, 0%, 100%, 0.1);
+    font-family: var(--body-font);
+    transition: border-color 0.3s;
+}
+
+.login__input:focus {
+    border-color: var(--text-color);
+}
+
+.login__button {
+    width: 100%;
+    background-color: #e74c3c; /* Reutilizamos el rojo de tu botón principal */
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: var(--normal-font-size);
+    font-weight: var(--font-semi-bold);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-bottom: 1.5rem;
+}
+
+.login__button:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+.login__forgot {
+    display: inline-block;
+    font-size: var(--smaller-font-size);
+    color: var(--text-color-light);
+    transition: color 0.3s;
+}
+
+.login__forgot:hover {
+    color: var(--title-color);
+    text-decoration: underline;
+}

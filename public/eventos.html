@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos - Agrupación Musical</title>
+    <!-- Enlace a tu CSS base y al nuevo CSS de eventos -->
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/eventos.css">
+    <!-- Iconos de Remixicon -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- CABECERA -->
+    <header class="header blur-header" id="header">
+        <nav class="nav container">
+            <a href="index.html" class="nav__logo">🎺 Banda</a>
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li><a href="index.html" class="nav__link">Inicio</a></li>
+                    <li><a href="eventos.html" class="nav__link active-link">Eventos</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- SECCIÓN PRINCIPAL DE EVENTOS -->
+    <main class="main">
+        <section class="section eventos">
+            <div class="container">
+                <h2 class="section__title">Próximos Ensayos y Actuaciones</h2>
+                
+                <!-- 
+                  EL CONTENEDOR DINÁMICO 
+                  Gracias al id="contenedor-eventos", tu archivo eventos.js sabrá 
+                  exactamente dónde dibujar las tarjetas que lleguen de MySQL.
+                -->
+                <div class="eventos__container grid" id="contenedor-eventos">
+                    <!-- JavaScript inyectará las tarjetas de los eventos aquí mágicamente -->
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- VENTANAS EMERGENTES (MODALES) -->
+    <!-- Dejamos un modal genérico preparado por si lo necesitas conectar más adelante -->
+    <div class="modal" id="modal-generico">
+        <div class="modal__content">
+            <span class="modal__close" onclick="cerrarModal('modal-generico')"><i class="ri-close-line"></i></span>
+            <h2 class="modal__title">Detalles Adicionales</h2>
+            <p class="modal__subtitle">Información ampliada del evento</p>
+            <ul class="modal__details">
+                <li><strong>Aviso:</strong> La información detallada se actualizará próximamente desde administración.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Script principal de eventos -->
+    <script src="js/eventos.js"></script>
+</body>
+</html>
