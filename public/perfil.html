@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Agrupación Musical</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/perfil.css"> <!-- El nuevo CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- CABECERA -->
+    <header class="header blur-header" id="header">
+        <nav class="nav container">
+            <a href="index.html" class="nav__logo">🎺 Banda</a>
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li><a href="index.html" class="nav__link">Inicio</a></li>
+                    <li><a href="eventos.html" class="nav__link">Eventos</a></li>
+                    <li><a href="perfil.html" class="nav__link active-link">Mi Perfil</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- SECCIÓN DEL PERFIL -->
+    <main class="main">
+        <section class="section perfil">
+            <div class="container perfil__container">
+                
+                <!-- Tarjeta Principal del Usuario -->
+                <div class="perfil__card">
+                    <div class="perfil__header">
+                        <!-- Foto del músico (Por ahora ponemos una de prueba genérica) -->
+                        <div class="perfil__foto-box">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Carlita" alt="Foto de perfil" class="perfil__foto" id="foto-usuario">
+                        </div>
+                        
+                        <div class="perfil__info-principal">
+                            <!-- Estos datos los rellenaremos con JavaScript y MySQL más adelante -->
+                            <h2 class="perfil__nombre" id="nombre-usuario">Cargando...</h2>
+                            <p class="perfil__rol" id="rol-usuario">Músico</p>
+                        </div>
+                    </div>
+
+                    <!-- Datos Técnicos -->
+                    <div class="perfil__detalles">
+                        <div class="detalle__item">
+                            <i class="ri-music-2-line"></i>
+                            <div>
+                                <span class="detalle__label">Instrumento</span>
+                                <strong class="detalle__valor" id="inst-usuario">...</strong>
+                            </div>
+                        </div>
+                        <div class="detalle__item">
+                            <i class="ri-t-shirt-2-line"></i>
+                            <div>
+                                <span class="detalle__label">Talla Uniforme</span>
+                                <strong class="detalle__valor" id="talla-usuario">...</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Estadísticas de Asistencia -->
+                    <h3 class="perfil__stats-title">Mi Asistencia</h3>
+                    <div class="perfil__stats grid">
+                        <div class="stat__box">
+                            <i class="ri-calendar-check-line stat__icon ensayos"></i>
+                            <span class="stat__numero" id="count-ensayos">0</span>
+                            <span class="stat__texto">Ensayos</span>
+                        </div>
+                        <div class="stat__box">
+                            <i class="ri-star-line stat__icon conciertos"></i>
+                            <span class="stat__numero" id="count-conciertos">0</span>
+                            <span class="stat__texto">Actuaciones</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Botón para cerrar sesión -->
+                    <button class="perfil__logout" onclick="window.location.href='/login.html'">Cerrar Sesión</button>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
