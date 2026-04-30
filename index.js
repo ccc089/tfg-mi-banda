@@ -121,6 +121,75 @@ app.get('/api/eventos', (req, res) => {
   });
 });
 
+// --- RUTA PROTEGIDA: Obtener los datos del perfil del músico ---
+app.get('/api/perfil', (req, res) => {
+  // 1. Verificamos que el usuario haya hecho login
+  if (!req.session.logueado) {
+    return res.status(401).json({ error: 'No autorizado' });
+  }
+
+  const emailUsuario = req.session.email;
+
+  // 2. Consulta SQL con LEFT JOIN para unir al usuario con su instrumento y su ropa
+  const sqlPerfil = `
+    SELECT 
+      u.id_usuario, 
+      u.nombre, 
+      u.apellidos, 
+      i.nombre AS instrumento, 
+      ropa.talla AS talla_uniforme
+    FROM usuarios u
+    LEFT JOIN instrumentos i ON u.id_instrumento = i.id_instrumento
+    LEFT JOIN inventario_ropa ropa ON u.id_usuario = ropa.id_usuario
+    WHERE u.email = ?
+    LIMIT 1
+  `;
+
+  db.query(sqlPerfil, [emailUsuario], (err, resultados) => {
+    if (err || resultados.length === 0) {
+      console.error('Error buscando perfil:', err);
+      return res.status(500).json({ error: 'Error al cargar el perfil' });
+    }
+
+    const datosUsuario = resultados[0];
+
+    // 3. Consulta para contar a cuántos eventos ha dicho "voy"
+    const sqlAsistencias = `
+      SELECT e.tipo_evento, COUNT(*) AS total
+      FROM asistencias a
+      JOIN eventos e ON a.id_evento = e.id_evento
+      WHERE a.id_usuario = ? AND a.estado_asistencia = 'voy'
+      GROUP BY e.tipo_evento
+    `;
+
+    db.query(sqlAsistencias, [datosUsuario.id_usuario], (err, stats) => {
+      if (err) {
+        console.error('Error contando asistencias:', err);
+        return res.status(500).json({ error: 'Error al cargar estadísticas' });
+      }
+
+      // Preparamos los contadores a cero por defecto
+      let totalEnsayos = 0;
+      let totalActuaciones = 0;
+
+      // Actualizamos los números según lo que devuelva MySQL
+      stats.forEach(stat => {
+        if (stat.tipo_evento.toLowerCase() === 'Ensayo') totalEnsayos = stat.total;
+        if (stat.tipo_evento.toLowerCase() === 'Actuacion') totalActuaciones = stat.total;
+      });
+
+      // 4. Empaquetamos todo y se lo enviamos a la vista HTML del perfil
+      res.json({
+        nombreCompleto: `${datosUsuario.nombre} ${datosUsuario.apellidos}`,
+        instrumento: datosUsuario.instrumento || 'No asignado',
+        talla: datosUsuario.talla_uniforme || 'Sin registrar',
+        ensayos: totalEnsayos,
+        actuaciones: totalActuaciones
+      });
+    });
+  });
+});
+
 // ==========================================
 // 4. ENCENDIDO DEL SERVIDOR
 // ==========================================
