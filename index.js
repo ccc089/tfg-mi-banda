@@ -29,7 +29,7 @@ app.use(session({
 const limitadorLogin = rateLimit({
   windowMs: 1 * 60 * 1000, // Tiempo de castigo: 15 minutos (Se hace la multiplicacion por que el tiempo esta en milisegundos)
   max: 3, // Límite de 5 intentos por IP
-  message: 'Demasiados intentos de inicio de sesión. Te hemos bloqueado temporalmente por seguridad. Inténtalo de nuevo en 15 minutos 🛑',
+  message: 'Demasiados intentos de inicio de sesión. Te hemos bloqueado temporalmente por seguridad. Inténtalo de nuevo en 1 minutos 🛑',
   standardHeaders: true, 
   legacyHeaders: false,
 });
