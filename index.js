@@ -64,7 +64,7 @@ app.post('/api/login', (req, res) => {
       
       // --- ¡EL CRUCE DE CAMINOS! ---
       if (usuarioEncontrado.email === 'carlita@banda.com') {
-        // Si eres la jefa (Admin), vas directa a tu panel protegido
+        // Si es Admin, va directo a su panel protegido
         res.redirect('/crear-evento');
       } else {
         // Si es un músico normal, va a la cartelera pública de eventos
@@ -88,7 +88,7 @@ app.get('/api/check-admin', (req, res) => {
 
 // --- RUTA PROTEGIDA: Solo para ver el formulario de crear evento ---
 app.get('/crear-evento', (req, res) => {
-  // Comprobamos si hay sesión iniciada Y si el correo es el tuyo
+  // Comprobamos si hay sesión iniciada Y si el correo es el administrador
   if (req.session.logueado && req.session.email === 'carlita@banda.com') {
     // Te enviamos el archivo desde la carpeta secreta 'privado'
     res.sendFile(path.join(__dirname, 'privado', 'crear-evento.html'));
@@ -216,10 +216,15 @@ app.get('/api/perfil', (req, res) => {
       let totalEnsayos = 0;
       let totalActuaciones = 0;
 
-      // Actualizamos los números según lo que devuelva MySQL
+      // Actualizamos los números usando coincidencias parciales robustas
       stats.forEach(stat => {
-        if (stat.tipo_evento.toLowerCase() === 'Ensayo') totalEnsayos = stat.total;
-        if (stat.tipo_evento.toLowerCase() === 'Actuacion') totalActuaciones = stat.total;
+        const tipo = stat.tipo_evento.toLowerCase();
+        
+        if (tipo.includes('ensayo')) {
+          totalEnsayos = stat.total;
+        } else if (tipo.includes('actuac') || tipo.includes('conciert')) {
+          totalActuaciones = stat.total;
+        }
       });
 
       // 4. Empaquetamos todo y se lo enviamos a la vista HTML del perfil
