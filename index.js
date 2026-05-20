@@ -3,6 +3,7 @@ const mysql = require('mysql2');
 const bcrypt = require('bcryptjs'); 
 const session = require('express-session'); // Para recordar logins
 const path = require('path'); // Para manejar rutas de archivos y carpetas
+const rateLimit = require('express-rate-limit'); // NUEVO: Librería para el "Fail2Ban"
 
 const app = express();
 const puerto = 3000;
@@ -22,7 +23,19 @@ app.use(session({
 }));
 
 // ==========================================
-// 2. CONFIGURACIÓN DE LA BASE DE DATOS
+// 2. CONFIGURACIÓN DEL "FAIL2BAN" (RATE LIMIT)
+// ==========================================
+// Creamos el "portero" que vigilará los intentos de inicio de sesión
+const limitadorLogin = rateLimit({
+  windowMs: 1 * 60 * 1000, // Tiempo de castigo: 15 minutos (Se hace la multiplicacion por que el tiempo esta en milisegundos)
+  max: 3, // Límite de 5 intentos por IP
+  message: 'Demasiados intentos de inicio de sesión. Te hemos bloqueado temporalmente por seguridad. Inténtalo de nuevo en 15 minutos 🛑',
+  standardHeaders: true, 
+  legacyHeaders: false,
+});
+
+// ==========================================
+// 3. CONFIGURACIÓN DE LA BASE DE DATOS
 // ==========================================
 const db = mysql.createConnection({
   host: 'db',
@@ -40,11 +53,12 @@ db.connect((err) => {
 });
 
 // ==========================================
-// 3. RUTAS DE LA APLICACIÓN
+// 4. RUTAS DE LA APLICACIÓN
 // ==========================================
 
-// --- RUTA DE LOGIN (Con cruce de caminos para el Admin) ---
-app.post('/api/login', (req, res) => {
+// --- RUTA DE LOGIN (Protegida con el Limitador) ---
+// Fíjate cómo metemos 'limitadorLogin' en medio, justo antes de ejecutar la ruta
+app.post('/api/login', limitadorLogin, (req, res) => {
   const emailIngresado = req.body.email;
   const passwordIngresada = req.body.password;
 
@@ -240,7 +254,7 @@ app.get('/api/perfil', (req, res) => {
 });
 
 // ==========================================
-// 4. ENCENDIDO DEL SERVIDOR
+// 5. ENCENDIDO DEL SERVIDOR
 // ==========================================
 app.listen(puerto, () => {
   console.log(`Servidor de la banda escuchando en el puerto ${puerto} 🎺🚀`);
