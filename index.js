@@ -77,6 +77,15 @@ app.post('/api/login', (req, res) => {
   });
 });
 
+// --- RUTA PARA COMPROBAR SI EL USUARIO ES ADMIN ---
+app.get('/api/check-admin', (req, res) => {
+  if (req.session.logueado && req.session.email === 'carlita@banda.com') {
+    res.json({ isAdmin: true });
+  } else {
+    res.json({ isAdmin: false });
+  }
+});
+
 // --- RUTA PROTEGIDA: Solo para ver el formulario de crear evento ---
 app.get('/crear-evento', (req, res) => {
   // Comprobamos si hay sesión iniciada Y si el correo es el tuyo
@@ -112,12 +121,47 @@ app.post('/api/crear-evento', (req, res) => {
   });
 });
 
-// --- RUTA PÚBLICA: Obtener los eventos (Para que los músicos los vean) ---
+// --- RUTA PÚBLICA: Obtener los eventos Y la asistencia del usuario ---
 app.get('/api/eventos', (req, res) => {
-  const sqlBuscar = 'SELECT * FROM eventos ORDER BY fecha_hora ASC';
-  db.query(sqlBuscar, (err, resultados) => {
+  if (!req.session.logueado) return res.status(401).json({ error: 'No autorizado' });
+
+  // Unimos los eventos con la asistencia específica del músico que ha hecho login
+  const sqlBuscar = `
+    SELECT e.*, a.estado_asistencia 
+    FROM eventos e 
+    LEFT JOIN asistencias a ON e.id_evento = a.id_evento 
+      AND a.id_usuario = (SELECT id_usuario FROM usuarios WHERE email = ?)
+    ORDER BY e.fecha_hora ASC
+  `;
+  
+  db.query(sqlBuscar, [req.session.email], (err, resultados) => {
     if (err) return res.status(500).json({ error: 'Error al obtener eventos' });
     res.json(resultados);
+  });
+});
+
+// --- RUTA PARA GUARDAR O ACTUALIZAR LA ASISTENCIA ---
+app.post('/api/asistencia', (req, res) => {
+  if (!req.session.logueado) return res.status(401).json({ error: 'No autorizado' });
+
+  const { id_evento, estado } = req.body;
+  const email = req.session.email;
+
+  // 1. Sacamos el ID numérico del músico usando su email de sesión
+  db.query('SELECT id_usuario FROM usuarios WHERE email = ?', [email], (err, resultados) => {
+    if (err || resultados.length === 0) return res.status(500).send('Error de usuario');
+    const id_usuario = resultados[0].id_usuario;
+
+    // 2. Insertamos la asistencia o la actualizamos si ya existía
+    const sqlAsistencia = `
+      INSERT INTO asistencias (id_usuario, id_evento, estado_asistencia) 
+      VALUES (?, ?, ?) 
+      ON DUPLICATE KEY UPDATE estado_asistencia = ?
+    `;
+    db.query(sqlAsistencia, [id_usuario, id_evento, estado, estado], (err, resultado) => {
+      if (err) return res.status(500).send('Error guardando asistencia');
+      res.send('Asistencia guardada correctamente ✅');
+    });
   });
 });
 
