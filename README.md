@@ -84,10 +84,18 @@ npm install
 
 ### 3. Lanzamiento del Entorno Conteneurizado
 Ordene al motor de orquestación de Docker que interprete el archivo de configuración estructural y levante los servicios en segundo plano (modo desatendido o *detached*):
+Antes tendras que hacer un cd y meterte en la carpeta donde esta el proyecto.
 ```bash
 sudo docker-compose up -d
 ```
 *El sistema descargará el entorno estandarizado de Node y la imagen relacional de MySQL, configurará el almacenamiento lógico persistente y enlazará las IPs internas en la red virtual automáticamente.*
+```bash
+docker exec -it banda_node bash
+```
+*Y luego se ejecutara el siguiente comando*
+```bash
+npx nodemon index.js
+```
 
 ## ⚠️ Registro de Errores Críticos de Despliegue (Troubleshooting)
 
